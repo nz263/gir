@@ -1,0 +1,92 @@
+---
+title: "Наброски для курсовой"
+author: "Olga Molotkova"
+date: "2024-04-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+#1 Это некрасивый график, который я хочу переделать
+wdir <- '/Users/n26300/Desktop/R'
+setwd(wdir)
+Y <- read.csv("/Users/n26300/Desktop/R/Year_hits (1).clu",header=FALSE,skip=2)$V1
+t <- table(Y)
+t
+years <- as.integer(names(t))
+freq <- as.vector(t[1992<=years & years<=2022])
+x <- 1992:2022
+plot(x,freq,main="Hits per year")
+```
+
+
+```{r}
+# Начинаю переделывать
+wdir <- '/Users/n26300/Desktop/R'
+setwd(wdir)
+Y <- read.csv("/Users/n26300/Desktop/R/Year_hits (1).clu",header=FALSE, skip=1)$V1
+df <- data.frame(Y)# converting to df
+```
+
+```{r}
+df
+```
+
+
+
+```{r}
+# Проверяю
+table(df$Y) #checking df
+```
+, Y != 0
+```{r}
+#getting rid of rows with value=0
+new_df <- subset(df) 
+```
+
+```{r}
+glimpse(new_df)
+```
+
+
+```{r}
+# Вот итоговый график, но в нем не отражены данные за 1992 год и 2022, а они мне нужны
+ggplot(new_df, aes(Y))+
+   geom_freqpoly(color = 'lightblue', bins = 30) +
+  labs(title = 'Распределение статей (hits) по годам', x = "Год", y = "Кол-во, шт.")+  theme_light()+ scale_x_continuous(limits = c(1991, 2023), breaks = seq(1991,2023,2))
+```
+
+
+
+
+```{r}
+# Меняю лимиты, все равно не получаеются правильные значения (см. таблицу)
+ggplot(new_df, aes(Y))+
+   geom_freqpoly(color = 'lightblue') +
+  labs(title = 'Распределение статей (hits) по годам', x = "Год", y = "Кол-во, шт.")+  theme_light()+ scale_x_continuous(limits = c(1991, 2023), breaks = seq(1992,2022,2))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
